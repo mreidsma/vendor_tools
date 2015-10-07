@@ -17,6 +17,19 @@
 
 	<h2>Chapter 5: Bookmarklets</h2>
 
+		<div class="alert alert-info">If you need help installing bookmarklets, I maintain a page with instructions for many browsers at <a href="http://mreidsma.github.io/bookmarklets/installing.html">http://mreidsma.github.io/bookmarklets/installing.html</a>.</div>
+
+		<h3>Rainbow Header</h3>
+
+		<p>This bookmarklet changes the header of the page. Go ahead and click it to run it on this page.</p>
+
+		<p class="bookmarklet"><a href="javascript:(function(){var headerDiv=document.getElementById('page-header');headerDiv.style.backgroundImage='url(img/rainbow.png)';headerDiv.style.backgroundRepeat='repeat';})();" class="btn btn-default">Rainbow Header</a></p>
+
+		<h3>Add Unicorn</h3>
+
+		<p>This bookmarklet adds a friend to most web pages. Click it to run on this page, or drag the link to your bookmarks bar to install it.</p>
+
+		 <p class="bookmarklet"><a href="javascript:(function(){var unicorn = document.createElement('img');unicorn.src='http://mreidsma.github.io/vendor_tools/img/unicorn.gif';unicorn.alt='Unicorn!';unicorn.style.position='fixed';unicorn.style.left='0';unicorn.style.top='10%';document.body.appendChild(unicorn);})();" class="btn btn-default">Add Unicorn</a></p>
 	
 
 	<div id="page-footer">
