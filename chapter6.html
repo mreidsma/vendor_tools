@@ -130,9 +130,13 @@ for(var i = 0; i &lt; links.length; i++) {
     newListItem.innerHTML = '&lt;a href="' + articleLinks[i] + '" class="article"&gt;Full Text Online&lt;/a&gt; '
 		+ 'from &lt;a href="' + databaseLinks[i] + '" class="database"&gt;' + databaseNames[i] + '&lt;/a&gt;.&lt;br /&gt;' 
 		+ '&lt;span class="dates"&gt;Coverage: ' + dates[i] + '&lt;/span&gt;'
-		+  ' &lt;small&gt;(&lt;a href="' + journalLinks[i] + '"&gt;Browse Journal&lt;/a&gt;';
+		+  ' &lt;small&gt;(&lt;a href="' + journalLinks[i] + '"&gt;Browse Journal&lt;/a&gt;&lt;/small&gt;)';
   linkContainer.appendChild(newListItem);
 }
+// Remove the old table
+var oldTable = document.querySelector('#linkresolver > table');
+document.getElementById('linkresolver').removeChild(oldTable);
+// Add the new list
 document.getElementById('linkresolver').appendChild(linkContainer);</code></pre>
 
 	<p>Now, to add new styles to this list, run the code below after you've changed the <code>&lt;table&gt;</code> into a <code>&lt;ul&gt;</code>:</p>
@@ -142,6 +146,56 @@ newStyles.rel = 'stylesheet';
 newStyles.type = 'text/css';
 newStyles.href = '//mreidsma.github.io/vendor_tools/css/chapter6.css';
 document.head.appendChild(newStyles);</code></pre>
+
+	<h3>Event Listeners</h3>
+
+	<p>Often we need to run a script after a user has interacted with our site, or after another event has occured (like the page is done loading). Event Listeners are a great way to do this in JavaScript. Below you will find the sample results list described in the section on Event Listeners.</p>
+
+	<div id="event-listeners" class="sample">
+	<div class="first-result">
+       <a href="#" class="article">Full Text Online</a> from <a href="#" class="database">Academic Search Database</a><br />
+      <span class="dates">Coverage: 1996-present </span>
+      <small><a href="#">Browse the journal</a></small>
+    </div>
+    <p id="results-toggle">Show additional results</p>
+    <ul id="additional-results">
+      <li><a href="#">Full Text Online</a> from Database.</li>
+      <li><a href="#">Full Text Online</a> from Database.</li>
+      <li><a href="#">Full Text Online</a> from Database.</li>
+    </ul>
+	</div>
+
+ <div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;div class="first-result"&gt;
+	&lt;a href="#" class="article"&gt;Full Text Online&lt;/a&gt; from &lt;a href="#" class="database"&gt;Academic Search Database&lt;/a&gt;&lt;br /&gt;
+	&lt;span class="dates"&gt;Coverage: 1996-present &lt;/span&gt;
+	&lt;small&gt;&lt;a href="#"&gt;Browse the journal&lt;/a&gt;&lt;/small&gt;
+&lt;/div&gt;
+&lt;p id="results-toggle"&gt;Show additional results&lt;/p&gt;
+&lt;ul id="additional-results"&gt;
+	&lt;li&gt;&lt;a href="#"&gt;Full Text Online&lt;/a&gt; from Database.&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#"&gt;Full Text Online&lt;/a&gt; from Database.&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#"&gt;Full Text Online&lt;/a&gt; from Database.&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    </div>
+
+    <p>The following code will hide the additional results by default, and then show them when the "Show additional results" link is clicked.</p>
+
+<pre><code>document.getElementById('additional-results').style.display = 'none';
+document.getElementById('results-toggle').style.color = 'blue';
+document.getElementById('results-toggle').style.textDecoration = 'underline';
+document.getElementById('results-toggle').style.cursor = 'pointer';
+document.getElementById('results-toggle').addEventListener('mousedown', function() {
+	if(this.textContent == 'Show additional results') {
+		document.getElementById('additional-results').style.display = 'block';
+		this.textContent = 'Hide additional results';
+	} else {
+		document.getElementById('additional-results').style.display = 'none';
+		this.textContent = 'Show additional results';
+	}
+});</code></pre>
 
 	<div id="page-footer">
 		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>

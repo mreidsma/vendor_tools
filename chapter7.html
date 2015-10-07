@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>JavaScript Examples</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 7: JavaScript Examples</h2>
+
+	<h3>OPAC Holdings Table</h3>
+
+	<p>Many OPAC holdings tables are not designed for quick scanning by users. But with JavaScript, we can fix this. Here is the sample holdings table from Chapter 7.</p>
+
+	<div class="sample">
+	<table class="bib_items">
+  <tbody>
+    <tr class="bibItemsHeader">
+      <th width="38%" class="bibItemsHeader">
+        Location
+      </th>
+      <th width="38%" class="bibItemsHeader">
+        Call No.
+      </th>
+      <th width="24%" class="bibItemsHeader">
+        Status
+      </th>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Mary Idema Pew - 3rd Floor</td>
+      <td width="38%">PS3562.E353 G6 2015</td>
+      <td width="24%">DUE 09-17-15 +2 HOLDS</td>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Steelcase Popular Reading</td>
+      <td width="38%">PS3562.E353 G6 2015 c.2</td>
+      <td width="24%">AVAILABLE</td>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Mary Idema Pew - Popular Reading (1st Floor)</td>
+      <td width="38%">PS3562.E353 G6 2015 c.3</td>
+      <td width="24%">DUE 10-07-15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;table class="bib_items">
+	&lt;tbody>
+		&lt;tr class="bibItemsHeader">
+			&lt;th width="38%" class="bibItemsHeader">Location&lt;/th>
+			&lt;th width="38%" class="bibItemsHeader">Call No.&lt;/th>
+			&lt;th width="24%" class="bibItemsHeader">Status&lt;/th>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Mary Idema Pew - 3rd Floor&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015&lt;/td>
+			&lt;td width="24%">DUE 09-17-15 +2 HOLDS&lt;/td>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Steelcase Popular Reading&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015 c.2&lt;/td>
+			&lt;td width="24%">AVAILABLE&lt;/td>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Mary Idema Pew - Popular Reading (1st Floor)&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015 c.3&lt;/td>
+			&lt;td width="24%">DUE 10-07-15&lt;/td>
+		&lt;/tr>
+	&lt;/tbody>
+&lt;/table></code></pre>
+</div>
+
+	<p>The following code scrapes the data from the table and builds a new <code>&lt;ul&gt;</code> element with the data. It also changes the styles of the availability statement depending on whether the item is currently available or not.</p>
+
+<pre><code>var newList = document.createElement('ul');
+newList.id = 'availability-list';
+var rows = document.querySelectorAll('table.bib_items tr.bibItemsEntry');
+for(var i = 0; i &lt; rows.length; i++) {
+  // Save content to variables
+  var content = rows[i].getElementsByTagName('td');
+  
+  var availableText = content[2].textContent;
+
+  // Set color of availability statement
+  var avail_classes = 'availability';
+  if(availableText.indexOf('AVAILABLE') > -1) {
+    avail_classes += ' avail';
+  } else {
+    avail_classes += ' unavail';
+  }
+
+  // Build new list item
+  var newListItem = document.createElement('li');
+  newListItem.innerHTML = '&lt;span class="' + avail_classes + '"&gt;' + content[2].textContent +'&lt;/span&gt;'
+    + ' &lt;span class="location"&gt;' + content[0].textContent + '&lt;/span&gt;'
+    + ' &lt;span class="callno"&gt;' + content[1].textContent + '&lt;/span&gt;';
+  // Add to list
+  newList.appendChild(newListItem);
+}
+var table = document.querySelector('table.bib_items');
+var tableBody = table.querySelector('tbody');
+table.removeChild(tableBody);
+table.style.display = 'block';
+table.appendChild(newList);</code></pre>
+
+	<style>
+		table.bib_items { border-collapse: collapse;}
+		table.bib_items tbody, table.bib_items td, table.bib_items tr, table.bib_items th { border: 1px solid #555; }
+		.availability { padding: 5px 10px; }
+		.avail { color: white; background-color: green; }
+		.unavail { color: white; background-color: red; }
+		#availability-list li { margin-bottom: 1.2em;}
+		#availability-list { list-style: none; padding-left: 0; }
+	</style>
+
+	<h3>ILL Registration Form</h3>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
