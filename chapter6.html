@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Advanced JavaScript</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 6: Advanced JavaScript</h2>
+
+	<h3>Loops</h3>
+
+	<p>The <code>for()</code> statement is one way to run a loop. Try running the code below in the console. What happens if you change the initial value of <code>i</code> to 2?</p>
+
+<pre><code>for(var i = 0; i < 5; i++) {
+	console.log(i);
+}</code></pre>
+
+	<p>Below is the sample results list described in the section on Loops in Chapter 6.</p>
+
+	<div id="linkresolver" class="sample">
+    <table>
+      <tr class="row">
+        <td>
+          <table>
+            <tr>
+              <td class="article"><a href="#article1">Article</a></td>
+              <td class="journal"><a href="#journal1">Journal</a></td>
+              <td class="database"><a href="#database1">Database Name 1</a></td>
+              <td class="dates">1986-present</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+            <tr class="row">
+              <td class="article"><a href="#article2">Article</a></td>
+              <td class="journal"><a href="#journal2">Journal</a></td>
+              <td class="database"><a href="#database2">Database Name 2</a></td>
+              <td class="dates">1991-1999</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;div id="linkresolver" class="sample"&gt;
+    &lt;table&gt;
+      &lt;tr class="row"&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr&gt;
+              &lt;td class="article"&gt;&lt;a href="#article1"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal1"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database1"&gt;Database Name 1&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1986-present&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr class="row"&gt;
+              &lt;td class="article"&gt;&lt;a href="#article2"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal2"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database2"&gt;Database Name 2&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1991-1999&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+   &lt;/div&gt;</code></pre>
+    </div>
+
+	<p>The code below will scrape the text from the various table cells to create a set of arrays, and then echo the contents of those arrays into the console.</p>
+
+	<!--[if lt IE 9]>
+	<div class="alert alert-warning">These scripts use the JavaScript method <code>querySelector()</code>, which is not supported by Internet Explorer 8 and below.</div>
+	<![endif]-->
+
+<pre><code>var articleLinks = new Array(), journalLinks = new Array(), databaseLinks = new Array(), databaseNames = new Array(), dates = new Array();
+var links = document.getElementById('linkresolver').querySelectorAll('tr.row');
+for(var i = 0; i < links.length; i++) {
+    articleLinks[i] = links[i].querySelector('td.article a').href;
+    journalLinks[i] = links[i].querySelector('td.journal a').href;
+    databaseLinks[i] = links[i].querySelector('td.database a').href;
+    databaseNames[i] = links[i].querySelector('td.database a').textContent;
+    dates[i] = links[i].querySelector('td.dates').textContent;
+}
+console.log(articleLinks); 
+console.log(journalLinks); 
+console.log(databaseLinks); 
+console.log(databaseNames); 
+console.log(dates);</code></pre>
+
+	<p>Try replacing the entire arrays in the <code>console.log()</code> methods with an array key. What happens if you log <code>databaseNames[1]</code>?</p>
+
+	<p>Now let's try scraping data from HTML markup and then building new HTML with JavaScript to replace the old. The code below is the code above, plus a series of statements to build a semantic list with a <code>&lt;ul&gt;</code> element rather than a table. After running the code in the console, look at your Elements Browser. Can you see how the markup in the DOM has changed?</p>
+
+<pre><code>var articleLinks = new Array(), journalLinks = new Array(), databaseLinks = new Array(), databaseNames = new Array(), dates = new Array();
+var links = document.getElementById('linkresolver').querySelectorAll('tr.row');
+for(var i = 0; i &lt; links.length; i++) {
+    articleLinks[i] = links[i].querySelector('td.article a').href;
+    journalLinks[i] = links[i].querySelector('td.journal a').href;
+    databaseLinks[i] = links[i].querySelector('td.database a').href;
+    databaseNames[i] = links[i].querySelector('td.database a').textContent;
+    dates[i] = links[i].querySelector('td.dates').textContent;
+}
+
+var linkContainer = document.createElement('ul');
+for(var i = 0; i &lt; links.length; i++) {
+  var newListItem = document.createElement('li');
+    newListItem.innerHTML = '&lt;a href="' + articleLinks[i] + '" class="article"&lt;Full Text Online&lt;/a&gt; '
+		+ 'from &lt;a href="' + databaseLinks[i] + '" class="database"&gt;' + databaseNames[i] + '&lt;/a&gt;.&lt;br /&gt;' 
+		+ '&lt;span class="dates"&gt;Coverage: ' + dates[i] + '&lt;/span&gt;'
+		+  ' &lt;small&gt;(&lt;a href="' + journalLinks[i] + '"&gt;Browse Journal&lt;/a&gt;';
+  linkContainer.appendChild(newListItem);
+}
+document.getElementById('linkresolver').appendCHild(linkContainer);</code></pre>
+
+	<p>Now, to add new styles to this list, run the code below after you've changed the <code>&lt;table&gt;</code> into a <code>&lt;ul&gt;</code>:</p>
+
+<pre><code>var newStyles = document.createElement('link');
+newStyles.rel = 'stylesheet';
+newStyles.type = 'text/css';
+newStyles.href = '//mreidsma.github.io/vendor_tools/css/chapter6.css';
+document.head[0].appendChild(newStyles);</code></pre>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
