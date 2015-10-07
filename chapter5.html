@@ -30,7 +30,31 @@
 		<p>This bookmarklet adds a friend to most web pages. Click it to run on this page, or drag the link to your bookmarks bar to install it.</p>
 
 		 <p class="bookmarklet"><a href="javascript:(function(){var unicorn = document.createElement('img');unicorn.src='http://mreidsma.github.io/vendor_tools/img/unicorn.gif';unicorn.alt='Unicorn!';unicorn.style.position='fixed';unicorn.style.left='0';unicorn.style.top='10%';document.body.appendChild(unicorn);})();" class="btn btn-default">Add Unicorn</a></p>
+
+		 <h3>Remove Header</h3>
+
+		 <p>This bookmarklet removes the header from this page.</p>
+
+		 <p class="bookmarklet"><a href="javascript:(function(){var header=document.getElementById('page-header');document.body.removeChild(header);})();" class="btn btn-default">Remove Header</a></p>
 	
+		<h3>Move Header</h3>
+
+		 <p>This bookmarklet removes the header from this page.</p>
+
+		 <p class="bookmarklet"><a href="javascript:(function(){var header=document.getElementById('page-header');document.body.appendChild(header);})();" class="btn btn-default">Move Header</a></p>
+
+		 <h3>Exercises Count Bookmarklet Code</h3>
+
+		 <p>Below is the code for the exercises bookmarklet. Install it in your browser, and head over to the <a href="index.html">Exercises Home Page</a> to try it out.</p>
+
+<pre><code>javascript:(function(){var liList=document.getElementById('table-of-contents').getElementsByTagName('li');var liElements=li.List.length;alert('There are ' + liElements + ' exercises for this book');})();</code></pre>
+
+		<h3>Complex Bookmarklets</h3>
+
+		<p>Many scripts are too complex to fit in the bookmarklet itself, so we can use the bookmarklet to append longer scripts. Below is the code for a bookmarklet that installs a remote script. Install it in your browser and try it on a web page. It should look familiar!</p>
+
+<pre><code>javascript:(function(){var newScript=document.createElement('script');newScript.src='//mreidsma.github.io/vendor_tools/js/bookmarklet.js';document.body.appendChild(newScript);})();</code></pre>
+
 
 	<div id="page-footer">
 		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
