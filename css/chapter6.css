@@ -1,7 +1,11 @@
+#linkresolver li {
+	margin-bottom: 12px;
+}
 li a.article {
 	background-color: blue;
 	color: white;
 	padding: 5px 10px;
+	text-decoration: none;
 }
 li a.database {
 	color: black;
@@ -11,5 +15,6 @@ li a.database {
 li span.dates,
 li small {
 	color: #575757;
-	font-size: 10px;
+	display: inline-block;
+	font-size: 14px;
 }

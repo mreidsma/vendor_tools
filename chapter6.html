@@ -127,13 +127,13 @@ for(var i = 0; i &lt; links.length; i++) {
 var linkContainer = document.createElement('ul');
 for(var i = 0; i &lt; links.length; i++) {
   var newListItem = document.createElement('li');
-    newListItem.innerHTML = '&lt;a href="' + articleLinks[i] + '" class="article"&lt;Full Text Online&lt;/a&gt; '
+    newListItem.innerHTML = '&lt;a href="' + articleLinks[i] + '" class="article"&gt;Full Text Online&lt;/a&gt; '
 		+ 'from &lt;a href="' + databaseLinks[i] + '" class="database"&gt;' + databaseNames[i] + '&lt;/a&gt;.&lt;br /&gt;' 
 		+ '&lt;span class="dates"&gt;Coverage: ' + dates[i] + '&lt;/span&gt;'
 		+  ' &lt;small&gt;(&lt;a href="' + journalLinks[i] + '"&gt;Browse Journal&lt;/a&gt;';
   linkContainer.appendChild(newListItem);
 }
-document.getElementById('linkresolver').appendCHild(linkContainer);</code></pre>
+document.getElementById('linkresolver').appendChild(linkContainer);</code></pre>
 
 	<p>Now, to add new styles to this list, run the code below after you've changed the <code>&lt;table&gt;</code> into a <code>&lt;ul&gt;</code>:</p>
 
@@ -141,7 +141,7 @@ document.getElementById('linkresolver').appendCHild(linkContainer);</code></pre>
 newStyles.rel = 'stylesheet';
 newStyles.type = 'text/css';
 newStyles.href = '//mreidsma.github.io/vendor_tools/css/chapter6.css';
-document.head[0].appendChild(newStyles);</code></pre>
+document.head.appendChild(newStyles);</code></pre>
 
 	<div id="page-footer">
 		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
