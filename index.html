@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Table of Contents</h2>
+
+	<ul id="table-of-contents">
+		<li>How to Use This Site</li>
+		<li><a href="chapter4.html">Chapter 4: JavaScript Basics</a></li>
+		<li>Chapter 5: Bookmarklets</li>
+		<li>Chapter 6: Advanced JavaScript</li>
+		<li>Chapter 7: JavaScript Examples</li>
+		<li>Chapter 8: jQuery Basics</li>
+		<li>Chapter 9: Advanced jQuery</li>
+		<li>Chapter 10: jQuery Examples</li>
+		<li>Chapter 11: AJAX</li>
+		<li>Chapter 12: AJAX Examples</li>
+		<li>Chapter 13: JavaScript and Server-side Languages</li>
+		<li>Chapter 14: Best Practices</li>
+		<li>Appendix: Developer Tools Tutorials</li>
+		<li>Appendix: Text Editors</li>
+		<li>Appendix: JavaScript &amp; jQuery Tutorials</li>
+	</ul>
+
+	<h2>Code for Chapter 3: Working with Developer Tools:</h2> 
+
+	<p>To practice running JavaScript in the Developer Tools, open up Developer Tools on this page (F12 or right-click and select "Inspect Element"), then switch the the "Console." Paste the code below at the chevrom (">"). What happened?</p>
+
+<pre><code>var liList = document.getElementById("table-of-contents").getElementsByTagName("li");
+var liElements = liList.length;
+alert('There are ' + liElements + ' exercises for this book');</code></pre>
+
+<p>Now try changing the <code>alert()</code> function to <code>console.log()</code>. How was this different than the first time you ran it?</p>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>JavaScript Basics</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 4: JavaScript Basics</h2>
+
+	<p>This page contains interactive exercises that go along with <i>Chapter 4: JavaScript Basics</i>. For each exercise, you will find the code snippets presented in the book along with live versions of the markup. Running the code in your browser's Developer Tools console will run the code on the page so you can see how the JavaScript statements being discussed work.</p>
+
+	<h3>Numbers</h3>
+
+	<p>Try running this code in your console. Each of these variables has the <em>number</em> data type. What does the <code>+</code> operator to two numbers?</p>
+
+<pre><code>var myNumber = 17;
+var myDecimal = 6.9780;
+myNumber + myDecimal;</code></pre>
+
+	<p>Now try the second set of statements. Here the variables are defined as strings, since they have quotes around them. What does the <code>+</code> operator do with strings?</p>
+
+<pre><code>var myNumber = '17';
+var myDecimal = '6.9780';
+myNumber + myDecimal;</code></pre>
+
+	<h3>Booleans</h3>
+
+	<p>Run the following code in the console to test the boolean value of a defined, but empty variable.</p>
+
+<pre><code>var myString = '';
+Boolean(myString);</code></pre>
+
+	<p>Now try testing the boolean value of a defined variable with a real value.</p>
+
+<pre><code>var myString = 'This is my string variable';
+Boolean(myString);</code></pre>
+
+	<h3>Arrays</h3>
+
+	<p>Run the following code in the console to display the third item in the defined array. What happens when you change the value of the index number between the square brackets?</p>
+
+<pre><code>var myArray = ["Books", "Articles", "Databases", 56];
+console.log(myArray[2]);</code></pre>	
+
+	<h3>Objects</h3>
+
+	<p>Run the following code in the console to display the <code>weight</code> property of the <code>myObject</code> object. What happens when you change the value of the property?</p>
+
+<pre><code>var myObject = { color: "red", weight: 120, name: "Bertha", age: 3};
+console.log(myObject.weight);</code></pre>	
+
+	<h3><code>indexOf()</code> Method</h3>
+
+	<p>Run the following code in the console. The <code>indexOf()</code> property will return the numerical value of the starting position of the substring, if present. If the sub string isn't found, it returns -1. What happens if you look for "Due" instead of "8"? What does it mean if <code>indexOf()</code> returns 0?</p>
+
+<pre><code>var availability = 'Due 8/14/2016';
+console.log(availability.indexOf('8'));</code></pre>
+
+	<h3><code>.split()</code> Method</h3>
+
+	<p><code>.split()</code> creates an array of strings, broken up from a larger string wherever the split character or string appears. Try running the code below in the console. What happens to the array if you split the original string at every forward slash "/" rather than every space?</p>
+
+<pre><code>var availability = 'Due 8/14/2016';
+var parts = availability.split(' ');
+console.log(parts);</code></pre>
+
+	<p>What happens if you change the <code>console.log()</code> from showing the entire array to showing only the item at index 1? (Hint: use <code>parts[1]</code>.)</p>
+
+	<h3><code>.length()</code> Property</h3>
+
+	<p>The <code>.length()</code> property measures the number of characters in string variables, or the number of entries in an array. Try running the code below. What happens if you change the variable to a number, like 567?</p>
+
+<pre><code>var availability = 'Due 8/14/2016';
+console.log(availability.length);</code></pre>
+
+	<p>Now try with an array.</p>
+
+<pre><code>var myArray = ["Books", "Articles", "Databases", 56];
+console.log(myArray.length);</code></pre>
+
+	<h3><code>getElementById()</code> Method and the <code>.innerHTML</code> and <code>.textContent</code> Properties</h3>
+
+	<p>This method returns the DOM element with the specified ID. I've included a bit of markup here for you to experiment on:</p>
+
+<pre><code>&lt;div id="container"&gt;
+	&lt;div id="content"&gt;
+		&lt;p&gt;This is some awesome content!&lt;/p&gt;
+	&lt;/div&gt;
+	&lt;p&gt;And here is some more!&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+	<p>Now here it is included in the DOM. Go ahead and run the code below in the console, and you'll see what happens when you grab the HTML or text of an element.</p>
+
+	<div id="container" class="sample">
+		<div id="content">
+			<p>This is some awesome content!</p>
+		</div>
+		<p>And here is some more!</p>
+	</div>
+
+<pre><code>console.log(document.getElementById('content').innerHTML);</code></pre>
+
+	<p>What happens if you change the <code>.innerHTML</code> property to <code>.textContent</code>? What happens if you remove the properties altogether, and just select the element?</p>
+
+	<p>You can also change the HTML or text of an element with the <code>innerHTML</code> or <code>textContent</code> property. Try running this code. What happens to the content above in the gray box?</p>
+
+<pre><code>document.getElementById('content').innerHTML = "&lt;p&gt;This is some SUPER amazing content!&lt;/p&gt;;</code></pre>
+
+	<h3><code>querySelector()</code> and <code>querySelectorAll()</code> Methods</h3>
+
+	<!--[if lt IE 9]>
+	<div class="alert alert-warning"><code>querySelector()</code> only works in IE 9 and above.</div>
+	<![endif]-->
+
+	<p>The <code>querySelector()</code> methods allow us to use CSS-style selectors to find elements on a page. Try running the following code. What happens if you remove the child selector (">")?</p>
+
+<pre><code>console.log(document.querySelectorAll('#container > p'));</code></pre>
+
+	<h3><code>encodeURI()</code> and <code>encodeURIComponent()</code> Methods</h3>
+
+	<p>These two methods will percent-encode strings to be passed in a URL. If you need to encode an entire URL, use <code>encodeURI()</code>, but if you need every special character in a URL escaped, then use <code>encodeURIComponent()</code>.</p>
+
+	<p>Try running the following code. How is the output different if you change to <code>encodeURI()</code>?</p>
+
+<pre><code>var myVariable = 'This is a forward slash: /';
+var path = 'http://mywebsite.com/?text=';
+console.log(encodeURIComponent(path + myVariable));</code></pre>
+
+	<h3>Conditionals</h3>
+
+	<p>Conditionals allow you to test certain conditions before running code. Try running the code below in your console while visiting different websites (especially a post on a Wordpress blog). Did you see any differences?</p>
+
+<pre><code>if(document.getElementById('comments')) {
+	console.log('This page has a comments section.');
+} else {
+	console.log("I don't see a comments section with an ID of 'comments' here.");
+}</code></pre>
+
+	<p>The above condition checked for the existence of an element with an ID of 'comments'. The following conditional checks to see if you are on the JavaScript Basics page and then makes changes to the site's visual style. (Refresh the page to return to normal)</p>
+
+<pre><code>if(document.title == 'JavaScript Basics') {
+	document.body.style.backgroundColor = 'black';
+	document.body.style.color = 'white';
+}</code></pre>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
