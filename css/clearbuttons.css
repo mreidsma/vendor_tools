@@ -1,0 +1,15 @@
+.clear-button {
+    background-color: #bbb;
+    color: #fff;
+    -moz-border-radius: 5em;
+    -webkit-border-radius: 5em;
+    border-radius: 10em;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 10px;
+    padding: .5em .7em;
+    display: inline-block;
+    position: relative;
+    left: -3em;
+    bottom: .25em;
+}
