@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="css/clearbuttons.css" />
+
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 10: jQuery Examples</h2>
+
+	<h3>OPAC Holdings Table</h3>
+
+	<p>Many OPAC holdings tables are not designed for quick scanning by users. But with JavaScript, we can fix this. Here is the sample holdings table from Chapter 7.</p>
+
+	<div class="sample">
+	<table class="bib_items">
+  <tbody>
+    <tr class="bibItemsHeader">
+      <th width="38%" class="bibItemsHeader">
+        Location
+      </th>
+      <th width="38%" class="bibItemsHeader">
+        Call No.
+      </th>
+      <th width="24%" class="bibItemsHeader">
+        Status
+      </th>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Mary Idema Pew - 3rd Floor</td>
+      <td width="38%">PS3562.E353 G6 2015</td>
+      <td width="24%">DUE 09-17-15 +2 HOLDS</td>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Steelcase Popular Reading</td>
+      <td width="38%">PS3562.E353 G6 2015 c.2</td>
+      <td width="24%">AVAILABLE</td>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Mary Idema Pew - Popular Reading (1st Floor)</td>
+      <td width="38%">PS3562.E353 G6 2015 c.3</td>
+      <td width="24%">DUE 10-07-15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;table class="bib_items">
+	&lt;tbody>
+		&lt;tr class="bibItemsHeader">
+			&lt;th width="38%" class="bibItemsHeader">Location&lt;/th>
+			&lt;th width="38%" class="bibItemsHeader">Call No.&lt;/th>
+			&lt;th width="24%" class="bibItemsHeader">Status&lt;/th>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Mary Idema Pew - 3rd Floor&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015&lt;/td>
+			&lt;td width="24%">DUE 09-17-15 +2 HOLDS&lt;/td>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Steelcase Popular Reading&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015 c.2&lt;/td>
+			&lt;td width="24%">AVAILABLE&lt;/td>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Mary Idema Pew - Popular Reading (1st Floor)&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015 c.3&lt;/td>
+			&lt;td width="24%">DUE 10-07-15&lt;/td>
+		&lt;/tr>
+	&lt;/tbody>
+&lt;/table></code></pre>
+</div>
+
+	<p>The following code scrapes the data from the table and builds a new <code>&lt;ul&gt;</code> element with the data. It also changes the styles of the availability statement depending on whether the item is currently available or not.</p>
+
+<pre><code>var newList = '&lt;ul id="availability-list"&gt;';
+$('table.bib_items').find('tr.bibItemsEntry').each(function() {
+	// Save content to variables
+	var location = $(this).find('td:first').text();
+	var callNo = $(this).find('td:nth-child(2)').text();
+	var availability = $(this).find('td:last').text();
+	var avail_classes="availability unavail";
+	if(availability.indexOf('AVAILABLE') > -1) {
+		avail_classes="availability avail";
+	}
+
+	// Build new list item, append to newList
+	newList += '&lt;li&gt;&lt;span class="' + avail_classes + '"&gt;' + availability + '&lt;/span&gt; &lt;span class="location"&gt;' + location + '&lt;/span&gt; &lt;span class="callno"&gt;' + callNo + '&lt;/span&gt;&lt;/li&gt;';
+});
+newList += '&lt;/ul&gt;';
+$('table.bib_items').css('display','block').html(newList);</code></pre>
+
+	<style>
+		table.bib_items { border-collapse: collapse;}
+		table.bib_items tbody, table.bib_items td, table.bib_items tr, table.bib_items th { border: 1px solid #555; }
+		.availability { padding: 5px 10px; display:inline-block; }
+		.avail { color: white; background-color: green; }
+		.unavail { color: white; background-color: red; }
+		#availability-list li { margin-bottom: 1.2em;}
+		#availability-list { list-style: none; padding-left: 0; }
+	</style>
+
+	<h3>ILL Registration Form</h3>
+
+	<p>Below is the drop-down <code>&lt;select&gt;</code> element we use in Illiad to allow users to change default pickup locations. The three letter code at the top in generated automatically by Illiad.</p>
+
+	<label for="NVTGC">Preferred Pickup Location</label>
+<select id="NVTGC" name="NVTGC">
+  <optgroup label="Current pickup location">
+    <option value="LIB" selected>LIB</option>
+  </optgroup>
+  <optgroup label="Select new pickup location">
+    <option value="LIB"> Mary Idema Pew Library @ Allendale</option>
+    <option value="STEEL">Steelcase Library @ DeVos</option>
+    <option value="FREY">Frey Learning Center @ CHS</option>
+  </optgroup>
+  <optgroup label="Distance Education?">
+    <option value="OCS">Ship Books to me</option>
+  </optgroup>
+</select>
+
+
+<div id="address-fields" style="display:none;">
+
+		<p><label for="Address">Address (No P.O. Boxes)</label>
+		<input id="Address" name="Address" placeholder="Address Line 1" type="text" value="" /></p>					
+	<p>
+		<input id="Address2" name="Address2" placeholder="Address Line 2" type="text" value="" /></p>
+
+<p>
+	<div class="span1">
+		<label for="City">City</label>
+		<input id="City" name="City" type="text" value="" />
+	</div>
+	
+	<div class="span1">	
+		<label for="State">State</label>
+		<input id="State" name="State" type="text" value="" />
+	</div>
+	
+	<div class="span1">
+		<label for="Zip">Zip</label>
+		<input id="Zip" name="Zip" type="text" value="" />
+	</div>
+</p>
+
+</div>
+
+<style>
+#address-fields input[type="text"] { width: 98%;}
+@media screen and (min-width: 650px) {
+	#address-fields div.span1 { width: 32%; padding-right: 1%; float: left; }
+}
+</style>
+
+
+<div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;label for="NVTGC"&gt;Preferred Pickup Location&lt;/label&gt;
+&lt;select id="NVTGC" name="NVTGC"&gt;
+  &lt;optgroup label="Current pickup location"&gt;
+    &lt;option value="&lt;#PARAM name="NVTGC"&gt;" selected&gt;&lt;#PARAM name="NVTGC"&gt;&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Select new pickup location"&gt;
+    &lt;option value="LIB"&gt; Mary Idema Pew Library @ Allendale&lt;/option&gt;
+    &lt;option value="STEEL"&gt;Steelcase Library @ DeVos&lt;/option&gt;
+    &lt;option value="FREY"&gt;Frey Learning Center @ CHS&lt;/option&gt;
+  &lt;/optgroup&gt;
+  &lt;optgroup label="Distance Education?"&gt;
+    &lt;option value="OCS"&gt;Ship Books to me&lt;/option&gt;
+  &lt;/optgroup&gt;
+&lt;/select&gt;</code></pre>
+</div>
+
+	<p>We want to change the text of the three letter code to something understandable by our users, so we can use this JavaScript to run a set of conditionals against the selected value:</p>
+
+<pre><code>$('option:contains("LIB")').text('Mary Idema Pew Library @ Allendale');
+$('option:contains("STEEL")').text('Steelcase Library @ DeVos');
+$('option:contains("FREY")').text('Frey Learning Center @ CHS');
+$('option:contains("OCS")').text('Ship Books to Me');</code></pre>
+
+	<p>Sometimes we need to hide an address until it is needed. Try running the following code in the console, and then select "Ship Books to Me" from the <code>&lt;select&gt;</code> above:</p>
+
+<pre><code>$('#address-fields').hide();
+$('select#NVTGC').on('change', function() {
+	if($(this).val() == 'OCS') {
+		$('#address-fields').slideDown(400);
+	} else {
+		$('#address-fields').slideUp(400);    
+	}
+});</code></pre>
+
+<p>We found that many of our users on mobile devices expected to have a "clear" button on each <code>&lt;input&gt;</code> to make it easier to clear out the contents of a field. Below are the First and Last Name fields from a form.</p>
+
+<div class="clear-button-example">
+<label for="FirstName">First Name</label>
+<input id="FirstName" name="FirstName" type="text" value="Matthew">
+<span id="FirstName-clear"></span>
+
+<label for="LastName">Last Name</label>
+<input id="LastName" name="LastName" type="text" value="Reidsma">
+<span id="LastName-clear"></span>
+</div>
+
+<style>
+.clear-button-example input { width: 15em; border: 1px solid #bbb; font-size: 18px; padding: 6px 3px;}
+</style>
+
+<div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;label for="FirstName"&gt;First Name&lt;/label&gt;
+&lt;input id="FirstName" name="FirstName"type="text" value="Matthew"&gt;
+&lt;span class="FirstName-clear"&gt;&lt;/span&gt;
+
+&lt;label for="LastName"&gt;Last Name&lt;/label&gt;
+&lt;input id="LastName" name="LastName" type="text" value="Reidsma"&gt;
+&lt;span class="LastName-clear"&gt;&lt;/span&gt;</code></pre>
+</div>
+
+	<p>To add the clear buttons, we can run the following code in the console. It also applies the styles to the page that position the buttons properly.</p>
+
+<pre><code>$('.clear-button-example').find('input[type="text"]').each(function() {
+	var inputID = $(this).attr('id');
+	$("#" + inputID + "-clear").addClass('clear-button').text('X').click(function() {
+		$('input#' + inputID).val('');
+		$('input#' + inputID).focus();
+	});
+});</code></pre>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

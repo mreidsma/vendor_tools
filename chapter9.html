@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 9: Advanced jQuery</h2>
+
+	<p>This page contains interactive exercises that go along with Chapter 9: Advanced jQuery. For each exercise, you will find the code snippets presented in the book along with live versions of the markup. Running the code in your browser's Developer Tools console will run the code on the page so you can see how the jQuery statements being discussed work.</p>
+
+	<h3><code>.remove()</code> and <code>.empty()</code></h3>
+
+	<p>We can completely remove elements from the DOM, or remove all of their contents. Try running the code below, and then look at the markup of this page in your Elements Browser. What happened to the code? WHat happens when you refresh the page and try the code again, but with <code>.empty()</code> in place of <code>.remove()</code>?</p>
+
+<pre><code>$('h1').remove();</code></pre>
+
+	<h3>Loops with <code>.each()</code></h3>
+
+<p>Below is the sample results list described in the section on Loops in Chapter 9.</p>
+
+	<div id="linkresolver" class="sample">
+    <table>
+      <tr class="row">
+        <td>
+          <table>
+            <tr>
+              <td class="article"><a href="#article1">Article</a></td>
+              <td class="journal"><a href="#journal1">Journal</a></td>
+              <td class="database"><a href="#database1">Database Name 1</a></td>
+              <td class="dates">1986-present</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+            <tr class="row">
+              <td class="article"><a href="#article2">Article</a></td>
+              <td class="journal"><a href="#journal2">Journal</a></td>
+              <td class="database"><a href="#database2">Database Name 2</a></td>
+              <td class="dates">1991-1999</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;div id="linkresolver" class="sample"&gt;
+    &lt;table&gt;
+      &lt;tr class="row"&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr&gt;
+              &lt;td class="article"&gt;&lt;a href="#article1"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal1"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database1"&gt;Database Name 1&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1986-present&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr class="row"&gt;
+              &lt;td class="article"&gt;&lt;a href="#article2"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal2"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database2"&gt;Database Name 2&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1991-1999&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+   &lt;/div&gt;</code></pre>
+    </div>
+
+	<p>The code below will scrape the text from the various table cells to create a set of arrays, and then echo the contents of those arrays into the console.</p>
+
+<pre><code>// Define the variables
+var articleLinks = new Array(), journalLinks = new Array(), databaseLinks = new Array(), databaseNames = new Array(), dates = new Array();
+
+$('#linkresolver table table').each(function() {
+	// Limit the scope
+	var row = $(this).find('tr');
+	// Get links
+	articleLinks.push($(row).find('td a:contains("Article")').attr('href'));
+	journalLinks.push($(row).find('td a:contains("Journal")').attr('href'));
+	databaseLinks.push($(row).find('td:nth-child(2) a').attr('href'));
+
+	// Get details
+	databaseNames.push($(row).find('td:nth-child(2) a').text());
+	dates.push($(row).find('td:last-child').text());
+});
+console.log(articleLinks); 
+console.log(journalLinks); 
+console.log(databaseLinks); 
+console.log(databaseNames); 
+console.log(dates);</code></pre>
+
+	<h3>Event Listeners</h3>
+
+	<p>Often we need to run a script after a user has interacted with our site, or after another event has occured (like the page is done loading). Event Listeners are a great way to do this in jQuery. Below you will find the sample results list described in the section on Event Listeners.</p>
+
+	<div id="event-listeners" class="sample">
+	<div class="first-result">
+       <a href="#" class="article">Full Text Online</a> from <a href="#" class="database">Academic Search Database</a><br />
+      <span class="dates">Coverage: 1996-present </span>
+      <small><a href="#">Browse the journal</a></small>
+    </div>
+    <p id="results-toggle">Show Additional results</p>
+    <ul id="additional-results">
+      <li><a href="#">Full Text Online</a> from Database.</li>
+      <li><a href="#">Full Text Online</a> from Database.</li>
+      <li><a href="#">Full Text Online</a> from Database.</li>
+    </ul>
+	</div>
+
+ <div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;div class="first-result"&gt;
+	&lt;a href="#" class="article"&gt;Full Text Online&lt;/a&gt; from &lt;a href="#" class="database"&gt;Academic Search Database&lt;/a&gt;&lt;br /&gt;
+	&lt;span class="dates"&gt;Coverage: 1996-present &lt;/span&gt;
+	&lt;small&gt;&lt;a href="#"&gt;Browse the journal&lt;/a&gt;&lt;/small&gt;
+&lt;/div&gt;
+&lt;p id="results-toggle"&gt;Show Additional results&lt;/p&gt;
+&lt;ul id="additional-results"&gt;
+	&lt;li&gt;&lt;a href="#"&gt;Full Text Online&lt;/a&gt; from Database.&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#"&gt;Full Text Online&lt;/a&gt; from Database.&lt;/li&gt;
+	&lt;li&gt;&lt;a href="#"&gt;Full Text Online&lt;/a&gt; from Database.&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    </div>
+
+    <p>The following code will hide the additional results by default, and then show them when the "Show additional results" link is clicked.</p>
+
+ <pre><code>$('#additional-results').hide();
+$('#results-toggle').mousedown(function() {
+	if($('#additional-results').css('display') == 'none') {
+		// Show
+		$(this).text('Hide Additional Results');
+		$('#additional-results').show();
+	} else {
+		// Hide
+		$(this).text('Show Additional Results');
+		$('#additional-results').hide();
+	}
+});</code></pre>
+
+	<p>Now try refreshing the page and using this version of the code, which toggles a CSS class to show and hide the extra results:</p>
+
+<style>
+.hide { display: none;}
+</style>
+
+<pre><code>$('#additional-results').addClass('hide');
+$('#results-toggle').click(function() {
+	if($('#additional-results').hasClass('hide')) {
+		// Show
+		$(this).text('Hide Additional Results');
+		$('#additional-results').removeClass('hide'); 
+	} else {
+		// Hide
+		$(this).text('Show Additional Results');
+		$('#additional-results').addClass('hide');  
+	}
+});</code></pre>
+
+	<p>Here is code that will slide the hidden content up and down. What happens if you change the number of milliseconds each method takes?</p>
+<pre><code>$('#additional-results').css('display', 'none');
+$('#results-toggle').click(function() {
+	if($('#additional-results').css('display') == 'none') {
+		// Show
+		$(this).text('Hide Additional Results');
+		$('#additional-results').slideDown(200); 
+	} else {
+		// Hide
+		$(this).text('Show Additional Results');    
+		$('#additional-results').slideUp(1000);  
+	 }
+});</code></pre>
+	
+		<p>Finally, here is a version that doesn't change the label text, but is just one line to slide the content up and down.</p>
+
+<pre><code>$('#additional-results').css('display', 'none');
+$('#results-toggle').click(function() {
+	$('#additional-results').slideToggle();
+});</code></pre>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

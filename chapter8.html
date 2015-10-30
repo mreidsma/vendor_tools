@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 8: jQuery Basics</h2>
+
+	<p>This page contains interactive exercises that go along with <i>Chapter 8: jQuery Basics</i>. For each exercise, you will find the code snippets presented in the book along with live versions of the markup. Running the code in your browser's Developer Tools console will run the code on the page so you can see how the jQuery statements being discussed work.</p>
+
+	<h3>jQuerify Bookmarklet</h3>
+
+	<p>The bookmarklet below can be added to your bookmarks bar to add jQuery to any page you visit. (No need to use it on this site&#8212;I've already included jQuery on every page.)</p>
+
+	<p><a href="(function() {  var otherlib = false, msg = ''; if(typeof jQuery!='undefined') {msg = 'This page already using jQuery v' + jQuery.fn.jquery;  return showMsg(); } else if (typeof $=='function') {  otherlib=true;  }  function getScript(url,success){  var script=document.createElement('script');  script.src=url;  document.getElementsByTagName('head')[0].appendChild(script);  success(); } function showMsg() {console.log(msg); } getScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',function() {  setTimeout(function() {msg = 'This page is now jQuerified with v' + jQuery.fn.jquery;  if (otherlib) {  msg+=' and noConflict(). Use $jq(), not $().';  $jq=jQuery.noConflict();  }  return showMsg(); }, 2500); });  })();">jQuerify</a></p>
+
+<pre><code>(function() {
+	var otherlib = false, msg = '';
+	if(typeof jQuery!='undefined') {
+		msg = 'This page already using jQuery v' + jQuery.fn.jquery;
+		return showMsg(); 
+	} else if (typeof $=='function') {
+		otherlib=true;
+	}
+	function getScript(url,success){
+		var script=document.createElement('script');
+		script.src=url;
+		document.getElementsByTagName('head')[0].appendChild(script);
+        success();
+	}
+	function showMsg() {
+		console.log(msg);
+	}
+	getScript('https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js',function() {
+		setTimeout(function() {
+			msg = 'This page is now jQuerified with v' + jQuery.fn.jquery;       
+			if (otherlib) {     
+				msg+=' and noConflict(). Use $jq(), not $().';
+				$jq=jQuery.noConflict();
+			}
+			return showMsg();
+		}, 2500);
+	});
+})();</code></pre>
+
+	<h3>jQuery Statements</h3>
+
+	<p>Here is a sample table we have used in previous chapters.</p>
+
+		<div class="sample">
+	<table class="bib_items">
+  <tbody>
+    <tr class="bibItemsHeader">
+      <th width="38%" class="bibItemsHeader">
+        Location
+      </th>
+      <th width="38%" class="bibItemsHeader">
+        Call No.
+      </th>
+      <th width="24%" class="bibItemsHeader">
+        Status
+      </th>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Mary Idema Pew - 3rd Floor</td>
+      <td width="38%">PS3562.E353 G6 2015</td>
+      <td width="24%">DUE 09-17-15 +2 HOLDS</td>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Steelcase Popular Reading</td>
+      <td width="38%">PS3562.E353 G6 2015 c.2</td>
+      <td width="24%">AVAILABLE</td>
+    </tr>
+    <tr class="bibItemsEntry">
+      <td width="38%">Mary Idema Pew - Popular Reading (1st Floor)</td>
+      <td width="38%">PS3562.E353 G6 2015 c.3</td>
+      <td width="24%">DUE 10-07-15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;table class="bib_items">
+	&lt;tbody>
+		&lt;tr class="bibItemsHeader">
+			&lt;th width="38%" class="bibItemsHeader">Location&lt;/th>
+			&lt;th width="38%" class="bibItemsHeader">Call No.&lt;/th>
+			&lt;th width="24%" class="bibItemsHeader">Status&lt;/th>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Mary Idema Pew - 3rd Floor&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015&lt;/td>
+			&lt;td width="24%">DUE 09-17-15 +2 HOLDS&lt;/td>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Steelcase Popular Reading&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015 c.2&lt;/td>
+			&lt;td width="24%">AVAILABLE&lt;/td>
+		&lt;/tr>
+		&lt;tr class="bibItemsEntry">
+			&lt;td width="38%">Mary Idema Pew - Popular Reading (1st Floor)&lt;/td>
+			&lt;td width="38%">PS3562.E353 G6 2015 c.3&lt;/td>
+			&lt;td width="24%">DUE 10-07-15&lt;/td>
+		&lt;/tr>
+	&lt;/tbody>
+&lt;/table></code></pre>
+</div>
+
+	<p>jQuery makes it easier to change the CSS of multiple items that match certain criteria. Try the code below in the console. What happens to the table above?</p>
+
+<pre><code>$(‘td[width="24%"]:contains("DUE")').css('color', 'red');</code></pre>
+
+	<p>jQuery also allows you to chaoin statements, like JavaScript. Try running the following code in the console:</p>
+
+<pre><code>$('td[width="24%"]:contains("DUE")').css('color', 'red').css('width', '45%').css('height', '100px');</code></pre>
+
+	<p>You can also min-and-match jQuery and JavaScript together. Try running the following code in the console:</p>
+
+<pre><code>var tableCells = $('td[width="24%"]:contains("DUE")');
+for(var i = 0; i &lt; tableCells.length; i++) {
+	tableCells[i].style.color = 'white';
+	tableCells[i].style.backgroundColor = 'red';
+}</code></pre>
+
+	<h3><code>.find()</code></h3>
+
+	<p>Here is some sample markup to demonstrate how <code>find()</code> looks within a predetermined scope:</p>
+
+	<div id="wrapper">
+		<p>This is a paragraph inside the wrapper.</p>
+		<img src="img/mypic.png" alt="" />
+	</div>
+	<p>Here is another paragraph outside the wrapper.</p>
+
+<div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;div id="wrapper"&gt;
+	&lt;p>&gt;This is a paragraph inside the wrapper.&lt;/p&gt;
+	&lt;img src="img/mypic.png" alt="" /&gt;
+&lt;/div&gt;
+&lt;p&gt;Here is another paragraph  outside the wrapper.&lt;/p&gt;</code></pre>
+</div>
+
+	<p>Try running the following code. It is searching for paragraphs only within the scope of the element with an ID or wrapper:</p>
+
+<pre><code>$('#wrapper').find('p').css('color', 'red');</code></pre>
+
+	<h3><code>.text()</code> and <code>.html()</code></h3>
+
+	<p>Capturing the text and HTML of elements is easy in jQuery. try running the following code in the console. What happens if you change the <code>text()</code> to <code>html()</code>?</p>
+
+<pre><code>console.log($('#wrapper').find('p').text(););</code></pre>
+
+	<p>We can also change the text or markup of an element. Try this code:</p>
+
+<pre><code>$('#wrapper').find('p').html('This is &lt;em&gt;my favorite&lt;/em&gt; paragraph!');</code></pre>
+
+	<h3><code>.show()</code> and <code>.hide()</code></h3>
+
+	<p>We can control whether is something is visible in jQuery with a shortcut command. Try running this code in the console, and look at the paragraph inside the wrapper above:</p>
+
+<pre><code>$('#wrapper').hide();</code></pre>
+
+	<p>Without refreshing the page, try running this code in the console:</p>
+
+<pre><code>$('#wrapper').show();</code></pre>
+
+	<h3>Going up and down the DOM</h3>
+
+	<p>We can use several jQuery selectors to move up adn down the DOM from a particular scope. Try running this code in the console. What happens to the image inside the wrapper element above?</p>
+
+<pre><code>$('#wrapper').closest('img').hide();</code></pre>
+
+	<h3><code>.append()</code> and <code>.prepend()</code></h3>
+
+	<p>We can add content to the beginning or end of an element easily with jQuery. Try running this code. What happens to the element with the ID of wrapper above?</p>
+
+<pre><code>$('#wrapper').prepend('&lt;h1&gt;This is a heading&lt;/h1&gt;');</code></pre>
+
+	<p>We can also move things around with jQuery. Try running this code. What happened to the content inside of the wrapper element?</p>
+
+<pre><code>var wrapper = $('#wrapper');
+$('#wrapper').next('p').append(wrapper);</code></pre>
+
+
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

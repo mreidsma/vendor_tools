@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 11: AJAX</h2>
+
+	<h3>License Information</h3>
+
+	<p>The following is a sample results list from a link resolver, showing several full-text options from different databases.</p>
+
+	<div id="linkresolver" class="sample">
+    <table>
+      <tr class="row">
+        <td>
+          <table>
+            <tr>
+              <td class="article"><a href="#article1">Article</a></td>
+              <td class="journal"><a href="#journal1">Journal</a></td>
+              <td class="database"><a href="#database1">Academic Search Database</a></td>
+              <td class="dates">1986-present</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <table>
+            <tr class="row">
+              <td class="article"><a href="#article2">Article</a></td>
+              <td class="journal"><a href="#journal2">Journal</a></td>
+              <td class="database"><a href="#database2">ProSearch Search Database</a></td>
+              <td class="dates">1991-1999</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+       <tr>
+        <td>
+          <table>
+            <tr class="row">
+              <td class="article"><a href="#article2">Article</a></td>
+              <td class="journal"><a href="#journal2">Journal</a></td>
+              <td class="database"><a href="#database2">Timy Specialist Database</a></td>
+              <td class="dates">1991-1999</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    </div>
+
+    <div class="markup-trigger">Show Markup</div>
+
+    <div class="markup-container">
+<pre><code>&lt;div id="linkresolver" class="sample"&gt;
+    &lt;table&gt;
+      &lt;tr class="row"&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr&gt;
+              &lt;td class="article"&gt;&lt;a href="#article1"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal1"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database1"&gt;Academic Search Database&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1986-present&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr class="row"&gt;
+              &lt;td class="article"&gt;&lt;a href="#article2"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal2"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database2"&gt;ProSearching Search Database&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1991-1999&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;table&gt;
+            &lt;tr class="row"&gt;
+              &lt;td class="article"&gt;&lt;a href="#article3"&gt;Article&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="journal"&gt;&lt;a href="#journal3"&gt;Journal&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="database"&gt;&lt;a href="#database3"&gt;Tiny Specialist Database&lt;/a&gt;&lt;/td&gt;
+              &lt;td class="dates"&gt;1991-1999&lt;/td&gt;
+            &lt;/tr&gt;
+          &lt;/table&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+   &lt;/div&gt;</code></pre>
+    </div>
+
+    <p>The code below will grab a remote JSON file and parse it, adding a link to license information after each of the database names.</p>
+
+<pre><code>// Get all the database names on the page, define global databaseList variable
+var databaseNames = $(".database"), databaseList;
+
+// Grab the JSON object from the text file
+$.get('http://mreidsma.github.io/vendor_tools/resources/licenses.json', function(data) {
+	var databaseList = data;
+});
+// Find the databases in the databaseList, append links
+for(i = 0; i < databaseNames.length; i++) {
+  // Get the database name from the page
+  var databaseText = $(databaseNames[i]).find('a').text();
+  var licenseURL = databaseList.databaseText;
+  $(databaseNames[i]).append('&lt;a href="' + licenseURL + '" class="license"&gt;License Information&lt;/a&gt;');
+}</code></pre>
+
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>
