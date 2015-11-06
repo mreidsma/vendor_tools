@@ -189,7 +189,7 @@ var search_query = $('input[type="text"]').val();
 var allResults = $('div.browseSearchtoolMessage').find('i').text().split(' ');
 $.ajax({
   method: 'POST',
-  url: 'resources/returnresults.php',
+  url: 'http://matthew.reidsrow.com/vendor_tools/returnresults.php',
   data: {tool: '2', search: search_query, results: allResults[0]},
   success: function(data) {
     console.log(data);
