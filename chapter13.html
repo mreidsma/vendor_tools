@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 13: Helper Scripts in PHP</h2>
+
+	<p>The following exercises are supplements to Chapter 13 of <cite>Customing Library Vendor Tools for Better UX</cite>.</p>
+
+	<h3>Trinity College Bookmarklet</h3>
+
+	<p>Back in <a href="chapter5.html">Chapter 5</a> we looked at the JavaScript to make a bookmarklet for Trinity College Library. The bookmarklet added an <code>&lt;img&gt;</code> tag to the page that sent data to an external script through the URL. Here is the JavaScript bookmarklet that you can run on the Trinity College Library catalog:</p>
+
+<pre><code>javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://gvsulib.com/temp/OPAC-Vote/opacvote.js';})();</code></pre>
+
+	<p>You can install it by dragging the following link to your bookmarks bar: <a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://gvsulib.com/temp/OPAC-Vote/opacvote.js';})();">Add Vote Button</a></p>
+
+
+	<p>Here is the code for the helper script on the server.</p>
+
+
+<pre><code>&lt;?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: image/gif');
+echo base64_decode('R0lGODlhAQABAJAAAP8AAAAAACH5BAUQAAAALAAAAAABAAEAAAICBAEAOw==');
+
+// Set variables
+$recordNo = $_GET['record'];
+$time = date('m/d/Y', time());
+
+// Create array
+$data = array($time, $recordNo);
+
+// Append to .csv file
+if (!$DataFile = fopen("opacvote.csv", "a")) {
+    echo "Failure: cannot open file"; die;
+};
+if (!fputcsv($DataFile, $data)) {
+    echo "Failure: cannot write to file"; die;
+};
+fclose($DataFile);
+?&gt;</code></pre>
+
+	<p>You can see what gets recorded by loking at the text file on my server at <a href="http://gvsulib.com/temp/OPAC-Vote/opacvote.csv">http://gvsulib.com/temp/OPAC-Vote/opacvote.csv</a>.</p>
+
+	<h3>Search Query Statistics</h3>
+
+	<p>The following JavaScript captures the contents of a search box and sends it to a PHP script to be saved (below). It uses a numeric index to track which search tool it came from, so you can have a single database with search queries from all of your tools. (You can look at <a href="resources/databases1.sql">the MySQL file</a> to see how the database was created.)</p>
+
+<pre><code>// Discovery Layer script with AJAX
+var search_query = $('input[type="text"]').val();   
+
+$.ajax({
+  method: 'GET',
+  url: '//mylibrary.org/searches.php',
+  data: {tool: '1', search: search_query},
+  success: function() {
+    console.log('Search query recorded.');
+  }
+});
+
+// OPAC Script with AJAX
+var search_query('input[type="text"]).val();
+
+$('body').append('&lt;img src="//mylibrary.org/searches.php?tool=2&amp;search=' + encodeURIComponent(search_query) + '" style="display: none;" /&gt;’);</code></pre>
+
+	<p>Here is the PHP script that parses the data:</p>
+
+<pre><code>&lt;?php
+header("Access-Control-Allow-Origin: *");
+header('Content-Type: image/gif');
+echo base64_decode('R0lGODlhAQABAJAAAP8AAAAAACH5BAUQAAAALAAAAAABAAEAAAICBAEAOw==');
+
+// Connect to the database
+$db = new mysqli("localhost", "username", "password", "searches");
+
+// Save the data from the request
+if(is_numeric($_GET['tool'])) {
+  $tool = $_GET['tool'];
+  echo $tool;
+} else {
+	echo 'Not numeric';
+  die;
+}
+
+$search = urldecode($_GET['search']);
+$search = $db-&gt;real_escape_string($search);
+
+// Save data to the database
+$result = $db-&gt;query("INSERT INTO search_queries SET search_tool ='$tool', search_query='$search'");
+
+?&gt;</code></pre>
+
+	<p>Let's say that a user did a search in your OPAC (<code>search_tool</code> ID of 2) for "batman" at 4:14pm on June 15th, 2016. If there are 190 other rows before this one, the JavaScript will insert a new row into your MySQL database, so now you'll have the following record:</p>
+
+	<table>
+		<tr>
+			<th><code>query_id</code></th>
+			<th><code>timestamp</code></th>
+			<th><code>search_tool</code></th>
+			<th><code>search_query</code></th>
+		</tr>
+		<tr>
+			<td>191</td>
+			<td>2016-06-15 16:14:05</td>
+			<td>2</td>
+			<td>batman</td>
+		</tr>
+	</table>
+
+	<p>We might make this script a bit more sophisticated by using our PHP script to echo back to our search tool some information about other useful searches. Here is a jQuery script and a PHP script that send the search results and then suggest other tools where the same search has been done. (Here is <a href="resources/database2.sql">the new MySQL file</a> so you can see how that database was created.)</p>
+
+	<p>Here's the markup for our OPAC where it shows how many results are returned for a search:</p>
+
+<pre><code>&lt;div class="browseSearchtoolMessage"&gt;       
+    &lt;i&gt;116 results found.&lt;/i&gt;
+    Sorted by  &lt;strong&gt;relevance&lt;/strong&gt;  | 
+    &lt;a href="/search~S19/X?batman&amp;SORT=DX"&gt;date&lt;/a&gt;  | 
+    &lt;a href="/search~S19/X?batman&amp;SORT=AX"&gt;title&lt;/a&gt;.
+&lt;/div&gt;</code></pre>
+
+	<p>Here is our AJAX function, a pure AJAX call that parses the data returned by our PHP script, below:</p>
+
+
+<pre><code>// OPAC Results
+var search_query = $('input[type="text"]').val();
+var allResults = $('div.browseSearchtoolMessage').find('i').text().split(' ');
+var catalogTotal = allResults[0];
+
+$.ajax({
+  method: 'POST',
+  url: '//mylibrary.org/searches.php',
+  data: {tool: '2', search: search_query, results: catalogTotal},
+  success: function() {
+    console.log('Search query recorded.');
+    $('#opac_results').prepend(data);
+  }
+});</code></pre>
+
+	<p>And here is our PHP script, complete with a sophisticated MySQL query to pull the other tools that have had similar searches more than 5 times, and return the results to our search tool where the results will be added to the page to help our users diversify their searches.</p>
+
+<pre><code>&lt;?php
+header("Access-Control-Allow-Origin: *");
+
+// Connect to the database
+$db = new mysqli("localhost", "username", "password", "searches");
+
+// Save the data from the request
+if(is_numeric($_GET['tool'])) {
+  $tool = $_GET['tool'];
+  echo $tool;
+} else {
+	echo 'Not numeric';
+  die;
+}
+
+$search = urldecode($_GET['search']);
+$search = $db-&gt;real_escape_string($search);
+$no_results = $db-&gt;real_escape_string($_GET['results']);
+
+
+// Save data to the database
+$result = $db-&gt;query("INSERT INTO search_queries SET search_tool ='$tool', search_query='$search', no_of_results='$no_results'");
+
+
+$suggestions = $db-&gt;query("SELECT COUNT(query_id) as count,
+search_queries.no_of_results,
+search_tools.search_tool,
+search_tools.search_url
+FROM search_queries,
+search_tools
+WHERE search_queries.search_query = '$search' 
+AND search_queries.search_tool != '$tool'
+AND search_queries.search_tool = search_tools.tool_id
+GROUP BY search_tools.tool_id 
+HAVING count &gt; 5");
+
+
+$suggestions = $db-&gt;query($query);
+
+if($suggestions) { // true- it worked!
+    $number_of_tools = $suggestions-&gt;num_rows;
+
+	// Only add items when there is more than one tool recommended
+	if($number_of_tools &gt; 0) {
+       echo '&lt;div id="suggested-tools"&gt;&lt;h4&gt;Others have searched for this in:&lt;/h4&gt;&lt;/br /&gt;';
+	   // Grab each row as an object and select the relevant properties
+       while($other_tools = $suggestions-&gt;fetch_array()) {
+	        echo '&lt;p&gt;&lt;a href="' . $other_tools['search_url'] . urlencode($search) . '"&gt;' . $other_tools['search_tool'] . '&lt;/a&gt;: ' . $other_tools['no_of_results'] . ' results&lt;/p&gt;';
+    	}
+    
+    	echo '&lt;/div&gt;'; // Close the container
+
+	}
+
+}  else { // false
+    // An error happened
+}
+?&gt;</code></pre>
+
+	<p>Here is what the results of this query might look like:</p>
+
+<table>
+		<tr>
+			<th><code>count</code></th>
+			<th><code>no_of_results</code></th>
+			<th><code>search_tool</code></th>
+			<th><code>search_url</code></th>
+		</tr>
+		<tr>
+			<td>40</td>
+			<td>1207</td>
+			<td>Catalog</td>
+			<td>//library.catalog.gvsu.edu/search/?searchtype=X&amp;searcharg=
+</td>
+		</tr>
+		<tr>
+			<td>25</td>
+			<td>2469</td>
+			<td>LibGuides</td>
+			<td>//libguides.gvsu.edu/srch.php?q=</td>
+		</tr>
+	</table>
+
+
+	<p>Of course, this script is a proof of concept. You can see a live version running at <a href="chapter13_test.html">chapter13_test.html</a> on this site. It doesn't account for the variances in search for a term with no filters and searchng for a term with many filters. In its current state it uses the value of the last recorded instance of the term for each tool to generate the number of results. But, as an example, I think it's kind of fun!</p>
+
+	
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

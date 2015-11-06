@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Customizing Library Vendor Tools for Better UX</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+</head>
+
+<body>
+
+	<div id="page-header">
+		<h1><a href="index.html">Exercises for Customizing Library Vendor Tools</a></h1>
+	</div>
+
+	<h2>Chapter 12: AJAX Examples</h2>
+
+	<h3>Virginia Commonwealth University Library's Database Receommender</h3>
+
+	<p><img src="img/vcu.png" alt="Database recommender from VCU" /></p>
+
+
+	<p>The following links will help you see the full code for VCU's database recommender, as well as the JSON object returned from their PHP script and sample searches in the live tool.</p>
+
+	<ul>
+		<li><a href="http://search.library.vcu.edu/primo_library/libweb/action/dlSearch.do?institution=VCU&amp;vid=VCU&amp;search_scope=all_scope&amp;dym=true&amp;query=any,contains,nursing">See a sample search for "nursing" with recommended databases</a></li>
+		<li><a href="https://apps.library.vcu.edu/assets/shared/includes/extra_search.php?q=nursing">See the full JSON object for the "nursing" search</a></li>
+		<li><a href="http://search.library.vcu.edu/primo_library/libweb/action/dlSearch.do?institution=VCU&amp;vid=VCU&amp;search_scope=all_scope&amp;dym=true&amp;query=any,contains,video%20game%20violence">See a more complex search with no recommendations, like "video game violence"</a></li>
+		<li><a href="https://apps.library.vcu.edu/assets/shared/includes/extra_search.php?q=video+games+violence">See a JSON object with no recommendations, for the "video games violence" search</a></li>
+		<li><a href="http://search.library.vcu.edu/primo_library/libweb/customized/vcul/vcu-libraries-search.js">See the full customized JavaScript file VCU uses in Primo</a> (scroll down a bit for the database recommender functions)</li>
+		<li><a href="http://erinrwhite.com/easier-access-for-databases-and-research-guides-at-vcu-libraries">Erin White's blog post on the database recommender project</a></li>
+		<li><a href="http://twitter.com/erinrwhite">Erin White on Twitter (@erinrwhite)</a></li>
+		
+	</ul>
+
+	<h3>Dumping the OPAC at University of Huddersfield Library</h3>
+
+	<p>Dave Pattern decided to put all the functions of the OPAC into Huddersfield's discovery layer, Summon.</p>
+
+	<p><img src="img/huddersfield.png" alt="Dumping the OPAC at the University of Huddersfied" /></p>
+
+	<ul>
+		<li><a href="http://hud.summon.serialssolutions.com/#!/search/document?ho=t&qmp;fvf=ContentType,Book%20%2F%20eBook,f&amp;l=en-UK&amp;q=john%20porcellino&amp;id=FETCHMERGED-hud_catalog_5500982">A sample book record from Huddersfield's discovery layer</a></li>
+		<li><a href="https://library3.hud.ac.uk/services/api/summonbookshelf/?bib=501797">The JSON returned by Dave's script for a book</a></li>
+		<li><a href="http://library3.hud.ac.uk/perl/user/summon/summonJS.loader.pl">One of the scripts Dave uses to customize the Summon interface</a></li>
+		<li><a href="http://library3.hud.ac.uk/perl/user/summon/summonJS.pl">Another of the scripts Dave uses to customize the Summon interface</a></li>
+		<li><a href="http://www.daveyp.com/category/library-stuff/replacing-the-opac/">Dave's blog posts on "dumping" the OPAC</a></li>
+		<li><a href="https://www.flickr.com/photos/davepattern/sets/72157633427926980/">Dave's Flickr set on what the different functions would look like (before the project launched).</a></li>
+		<li><a href="http://twitter.com/daveyp">Dave Pattern on Twitter (@daveyp)</a></li>
+	</ul>
+
+	<div id="page-footer">
+		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
+
+	</div>
+
+	<!-- Default scripts -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

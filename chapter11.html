@@ -41,7 +41,7 @@
             <tr class="row">
               <td class="article"><a href="#article2">Article</a></td>
               <td class="journal"><a href="#journal2">Journal</a></td>
-              <td class="database"><a href="#database2">ProSearch Search Database</a></td>
+              <td class="database"><a href="#database2">ProSearching Search Database</a></td>
               <td class="dates">1991-1999</td>
             </tr>
           </table>
@@ -53,7 +53,7 @@
             <tr class="row">
               <td class="article"><a href="#article2">Article</a></td>
               <td class="journal"><a href="#journal2">Journal</a></td>
-              <td class="database"><a href="#database2">Timy Specialist Database</a></td>
+              <td class="database"><a href="#database2">Tiny Specialist Database</a></td>
               <td class="dates">1991-1999</td>
             </tr>
           </table>
@@ -115,15 +115,230 @@ var databaseNames = $(".database"), databaseList;
 // Grab the JSON object from the text file
 $.get('http://mreidsma.github.io/vendor_tools/resources/licenses.json', function(data) {
 	var databaseList = data;
-});
-// Find the databases in the databaseList, append links
-for(i = 0; i < databaseNames.length; i++) {
+  console.log(data);
+
+  // Find the databases in the databaseList, append links
+  for(i = 0; i &lt; databaseNames.length; i++) {
   // Get the database name from the page
   var databaseText = $(databaseNames[i]).find('a').text();
-  var licenseURL = databaseList.databaseText;
-  $(databaseNames[i]).append('&lt;a href="' + licenseURL + '" class="license"&gt;License Information&lt;/a&gt;');
+  console.log(databaseList[databaseText]);
+  var licenseURL = databaseList[databaseText];
+  $(databaseNames[i]).append('&amp;nbsp;&lt;a href="' + licenseURL + '" class="license"&gt;License Information&lt;/a&gt;');
+}
+});</code></pre>
+
+  <p>Here is the contents of the license data file, in JSON format:</p>
+
+<pre><code>{
+"Academic Search Database": "http://path/to/license1",
+"ProSearching Search Database": "http://path/to/license2",
+"Tiny Specialist Database": "http://path/to/license3"
 }</code></pre>
 
+  <h3>Show All OPAC Holdings</h3>
+
+  <p>The table below is a sample results table from an OPAC, truncated at 10 holdings. There is a link at the bottom that allows you to view all holdings for this item on a a separate page.</p>
+
+  <div class="sample">
+<table class="bib_items" summary="List of holdings for this item">
+<tbody><tr class="bibItemsHeader">
+<th width="38%" class="bibItemsHeader">
+Location
+</th>
+<th width="38%" class="bibItemsHeader">
+Call No.
+</th>
+<th width="24%" class="bibItemsHeader">
+Status
+</th>
+</tr>
+<tr class="bibItemsEntry">
+
+<td width="38%">FREY Circulating Collection (CHS 290) </td>
+<td width="38%">PS3568.A572 A6 2014 c.21</td>
+<td width="24%">ON HOLDSHELF</td>
+</tr>
+<tr class="bibItemsEntry">
+<td width="38%">FREY Circulating Collection (CHS 290) </td>
+<td width="38%">PS3568.A572 A6 2014 c.22</td>
+<td width="24%">DUE 11-30-15</td></tr>
+<tr class="bibItemsEntry">
+<td width="38%">FREY Circulating Collection (CHS 290) </td>
+<td width="38%">PS3568.A572 A6 2014 c.23 </td>
+<td width="24%"><!-- field % -->&nbsp;AVAILABLE </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;FREY Circulating Collection (CHS 290) 
+</td>
+<td width="38%"><!-- field C -->&nbsp;PS3568.A572 A6 2014 <!-- field v -->&nbsp;c.24 <!-- field # -->&nbsp;</td>
+<td width="24%"><!-- field % -->&nbsp;AVAILABLE </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;FREY Circulating Collection (CHS 290) 
+</td>
+<td width="38%"><!-- field C -->&nbsp;PS3568.A572 A6 2014 <!-- field v -->&nbsp;c.25 <!-- field # -->&nbsp;</td>
+<td width="24%"><!-- field % -->&nbsp;AVAILABLE </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;Mary Idema Pew - 4th Floor 
+</td>
+<td width="38%"><!-- field C -->&nbsp;PS3568.A572 A6 2014 <!-- field v --><!-- field # -->&nbsp;</td>
+<td width="24%"><!-- field % -->&nbsp;DUE 11-02-15 +1 RECALLED </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;Mary Idema Pew - 4th Floor 
+</td>
+<td width="38%"><!-- field C -->&nbsp;PS3568.A572 A6 2014 <!-- field v -->&nbsp;c.2 <!-- field # -->c.2</td>
+<td width="24%"><!-- field % -->&nbsp;DUE 11-19-15 </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;Mary Idema Pew - Course Reserves 
+</td>
+<td width="38%"><!-- field C -->&nbsp;Community Reading Project - Citizen: An American Lyric <!-- field v -->&nbsp;c.26 <!-- field # -->&nbsp;</td>
+<td width="24%"><!-- field % -->&nbsp;AVAILABLE </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;Mary Idema Pew - Course Reserves 
+</td>
+<td width="38%"><!-- field C -->&nbsp;Community Reading Project - Citizen: An American Lyric <!-- field v -->&nbsp;c.27 <!-- field # -->&nbsp;</td>
+<td width="24%"><!-- field % -->&nbsp;AVAILABLE </td></tr>
+<tr class="bibItemsEntry">
+
+<td width="38%"><!-- field 1 -->&nbsp;Mary Idema Pew - Course Reserves 
+</td>
+<td width="38%"><!-- field C -->&nbsp;Community Reading Project - Citizen: An American Lyric <!-- field v -->&nbsp;c.28 <!-- field # -->&nbsp;</td>
+<td width="24%"><!-- field % -->&nbsp;AVAILABLE </td></tr>
+</tbody></table>
+<p><a href="/resources/allholdings.html" id="allholdings-link">View All Holdings</a></p>
+  </div>
+
+  <p>The following code uses the jQuery <code>.load()</code> method to pull the entire list of holdings from an external URL, then parses that data to make a listing of all holdings on this page by availability, formatted in the same manner as our earlier scripts to reformat the OPAC results. Try it out in the console!</p>
+
+<pre><code>// Reformat new items into arrays
+  var allHoldings = new Array(), availableHoldings = new Array(), unavailableHoldings = new Array(), periodicals;
+  
+  console.log('There are more than 10 holdings for this item.');
+
+  // Get URL of additional copies
+  var loadUrl = 'resources/allholdings.html';
+
+  // Load additional copies into hidden div for processing
+  var hiddenDiv = document.createElement('div');
+  hiddenDiv.id = 'additionalCopies';
+  hiddenDiv.style.display = 'none';
+  document.body.appendChild(hiddenDiv);
+
+  $('#additionalCopies').load(loadUrl + ' .bib_items', function() {
+
+    console.log('The element has loaded');
+
+    // Hide the view additional button
+    $('#allholdings-link').hide();
+
+    $(this).find('tr.bibItemsEntry').each(function() {
+
+        var availText = $(this).find('td:last-child').text().trim();
+        var aLocation = $(this).find('td:first').text().trim();
+        var aCallNo = $(this).find('td:nth-child(2)').text().trim();
+
+          if(availText.indexOf('AVAILABLE') > -1) {
+            // Add to available object
+            availableHoldings.push({"Availability": availText, "Classes": "availability avail", "Location": aLocation, "Callno": aCallNo});
+          } else {
+            // Add to unavailable object
+            unavailableHoldings.push({"Availability": availText, "Classes": "availability unavail", "Location": aLocation, "Callno": aCallNo});
+          }
+
+      });
+
+      // Combine all items
+      allHoldings = availableHoldings.concat(unavailableHoldings);
+
+      // Now start inserting the additional items under the first ten
+      // Keep this DIV hidden, and also include a trigger to show additional items
+      $('.bib_items').find('tbody').hide();
+      $('.bib_items').append('&lt;div id="top-results"&gt;&lt;/div&gt;');
+      $('.bib_items').append('&lt;div id="trigger"&gt;Show Additional Copies&lt;/div&gt;');
+      $('.bib_items').append('&lt;div id="additional-results" style="display:none;"&gt;&lt;/div&gt;');
+
+      $('#trigger').css('color', '#1F65A0').css('cursor','pointer').css('margin-top','1em');
+
+      $('#trigger').click(function() {
+        $('#additional-results').slideToggle(400);
+        if($(this).text() == 'Show Additional Copies') {
+          $(this).text('Hide Additional Copies');
+        } else {
+          $(this).text('Show Additional Copies');
+        }
+      });
+
+      for(t=0;t &lt; allHoldings.length; t++) {
+
+        if(t &lt; 10) {
+          $('#top-results').append('&lt;div class="availability-table"&gt;&lt;span class="' + allHoldings[t].Classes + '"&gt;' + allHoldings[t].Availability + '&lt;/span&gt; &lt;span class="location"&gt;' + allHoldings[t].Location + '&lt;/span&gt; &lt;span class ="call-number"&gt;' + allHoldings[t].Callno + '&lt;/span&gt;&lt;/div&gt;');
+        } else {
+          $('#additional-results').append('&lt;div class="availability-table"&gt;&lt;span class="' + allHoldings[t].Classes + '"&gt;' + allHoldings[t].Availability + '&lt;/span&gt; &lt;span class="location"&gt;' + allHoldings[t].Location + '&lt;/span&gt; &lt;span class ="call-number"&gt;' + allHoldings[t].Callno + '&lt;/span&gt;&lt;/div&gt;');
+        }
+      }
+
+  });</code></pre>
+
+    <h3>Getting Data out of Vendor Tools</h3>
+
+    <p>The following code saves a predefined ISBN number (in the variable <code>isbn</code>) to a text file on a remote server. We'll look at the PHP code in Chapter 13.</p>
+
+<pre><code>var isbn = '1582348251';
+$.ajax({
+  method: "POST",
+  crossdomain: true,
+  url: "http://matthew.reidsrow.com/courseware/vendortools/week4/ajax1.php",
+    data: {no: isbn}
+}).done(function(msg) {
+  alert( "Data Saved: " + msg );
+});</code></pre>
+
+  <p>To see the file that records the ISBN number, visit <a href="http://gvsu.edu/s/00Y">http://gvsu.edu/s/00Y</a>.</p>
+
+  <p>Here is another script that uses the JavaScript <code>prompt</code> method to ask for user input, and then saves the answer in a remote text file.</p>
+
+<pre><code>var movie = prompt("What is your favorite movie?");
+
+$.ajax({
+    method: "POST",
+    crossdomain: true,
+    url: "http://matthew.reidsrow.com/courseware/vendortools/week4/ajax2.php",
+    data: {film: movie}
+}).done(function(msg) {
+    alert( "All set! I loved " + movie + " too." );
+});</code></pre>
+
+  <p>You can see the text file that saves the answers at <a href="http://gvsu.edu/s/00Z">http://gvsu.edu/s/00Z</a>.</p>
+
+  <p>Here's one more, using a technique different from AJAX. This one just inserts an <code>&lt;img&gt;</code> tag on the site that does an HTTP request to a script on a remote server.</p>
+
+<pre><code>var path = encodeURIComponent(window.location.href);
+var title = encodeURIComponent(document.title);
+var imageHack = document.createElement('img');
+imageHack.style.display = 'none';
+imageHack.src = 'http://matthew.reidsrow.com/tools/bookmarks.php?url=' + path + '&amp;title=' + title;
+document.body.appendChild(imageHack);
+alert('Your URL was saved.');</code></pre>
+
+  <p>You can see the file that records the data at <a href="http://gvsu.edu/s/010">http://gvsu.edu/s/010</a>. We'll look at the techniques needed to save the data to the server in Chapter 13.</p>
+
+
+<style>
+a.license { background: #eee; padding: .25em .5em; font-size: .9em;}
+
+</style>
+<style>
+    table.bib_items { border-collapse: collapse;}
+    table.bib_items tbody, table.bib_items td, table.bib_items tr, table.bib_items th { border: 1px solid #555; }
+    .availability { padding: 5px 10px; display:inline-block; }
+    .avail { color: white; background-color: green; }
+    .unavail { color: white; background-color: red; }
+    .availability-table { margin-bottom: 1.2em;}
+  </style>
 
 	<div id="page-footer">
 		<p>This site was created as a supplment to <cite>Customing Library Vendor Tools for Better UX</cite>, written by <a href="http://matthewreidsma.com">Matthew Reidsma</a> and published in 2016 by <a href="http://www.abc-clio.com/LibrariesUnlimited.aspx">Libraries Unlimited</a>.</p>
